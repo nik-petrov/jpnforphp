@@ -97,15 +97,36 @@ class Kunrei extends Romanization
     );
 
     /**
+     * http://en.wikipedia.org/wiki/Japanese_punctuation
+     *
      * @var array Map Japanese punctuation marks to their equivalent in latin
      * alphabet.
      */
     protected $mapPunctuationMarks = array(
-        '　' => ' ', '、' => ',　', '・' => '-',
-        '「' => '"', '」' => '"',
-        '（' => '(', '）' => ')',
+            '　' => ' '
+        ,   '、' => ', '
+        ,   '，' => ', '
+        ,   '・' => '-'
+        ,   '。' => '.'
+        ,   '「' => '\''
+        ,   '」' => '\''
+        ,   '（' => '('
+        ,   '）' => ')'
+        ,   '【' => '('
+        ,   '】' => ')'
+        ,   '［' => '['
+        ,   '］' => ']'
+        ,   '｛' => '{'
+        ,   '｝' => '}'
+        ,   '：' => ':'
+        ,   '！' => '!'
+        ,   '？' => '?'
+        ,   '〜' => '~'
+        ,   '『' => '"'
+        ,   '』' =>  '"'
+        ,   '‥' =>  '…'
+        ,   '〽' => '\''
     );
-
     /**
      * Implements fromHiragana();
      *

@@ -123,14 +123,30 @@ class Kana
     );
 
     /**
+     * http://en.wikipedia.org/wiki/Japanese_punctuation
+     *
      * @var array Map latin form of various marks, punctuation, hyphen, etc. to
      * their equivalent in Japanese syllabary.
      */
     protected $mapMarks = array(
-        ' ' => '　', ',' => '、', ', ' => '、', '-' => '・',
-        '(' => '（', ')' => '）',
+            ' ' => '　'
+        ,   ', ' => '，'
+        ,   ',' => '，'
+        ,   '-' => '・'
+        ,   '.' => '。'
+        ,   '(' => '（'
+        ,   ')' => '）'
+        ,   '[' => '［'
+        ,   ']' => '］'
+        ,   '{' => '｛'
+        ,   '}' => '｝'
+        ,   ':' => '：'
+        ,   '!' => '！'
+        ,   '?' => '？'
+        ,   '~' => '〜'
+        ,   '"' => '『'
+        ,   '"' =>  '』'
     );
-
     /**
      * Transliterate a string from latin alphabet into hiragana.
      *
