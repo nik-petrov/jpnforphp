@@ -13,6 +13,10 @@ $data = array(
                 'description' => 'Default',
                 'cases' => array(
                     array(
+                        'input' => array(''),
+                        'expected' => '',
+                    ),
+                    array(
                         'input' => array('くるま'),
                         'expected' => 'kuruma',
                     ),
@@ -219,6 +223,23 @@ $data = array(
                     array(
                         'input' => array('サッカー　を　やる', Transliterator::KATAKANA),
                         'expected' => 'sakkā を やる',
+                    ),
+                ),
+            ),
+            array(
+                'description' => 'hotfix #14',
+                'cases' => array(
+                    array(
+                        'input' => array('ヤフー　yahoo YAHOO', NULL, new Hepburn()),
+                        'expected' => 'yafū yahoo YAHOO',
+                    ),
+                    array(
+                        'input' => array('ヤフー　yahoo YAHOO', NULL, new Kunrei()),
+                        'expected' => 'yahû yahoo YAHOO',
+                    ),
+                    array(
+                        'input' => array('ヤフー　yahoo YAHOO', NULL, new Nihon()),
+                        'expected' => 'yahû yahoo YAHOO',
                     ),
                 ),
             ),

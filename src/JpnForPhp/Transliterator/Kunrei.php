@@ -17,14 +17,13 @@ namespace JpnForPhp\Transliterator;
  * Based on the following rules:
  * http://www.age.ne.jp/x/nrs/iso3602/iso3602_unicode.html#kutoten
  */
-class Kunrei implements RomanizationInterface
+class Kunrei extends Romanization
 {
-
     /**
      * @var array Map hiragana characters (or combinaison of characters) to
      * their equivalent in latin alphabet.
      */
-    protected $mapHiragana = array(
+    protected $mapHiragana = array (
         'あ' => 'a', 'い' => 'i', 'う' => 'u', 'え' => 'e', 'お' => 'o',
         'か' => 'ka', 'き' => 'ki', 'く' => 'ku', 'け' => 'ke', 'こ' => 'ko',
         'さ' => 'sa', 'し' => 'si', 'す' => 'su', 'せ' => 'se', 'そ' => 'so',
@@ -63,7 +62,7 @@ class Kunrei implements RomanizationInterface
      * @var array Map katakana characters (or combinaison of characters) to
      * their equivalent in latin alphabet.
      */
-    protected $mapKatakana = array(
+    protected $mapKatakana = array (
         'ア' => 'a', 'イ' => 'i', 'ウ' => 'u', 'エ' => 'e', 'オ' => 'o',
         'カ' => 'ka', 'キ' => 'ki', 'ク' => 'ku', 'ケ' => 'ke', 'コ' => 'ko',
         'サ' => 'sa', 'シ' => 'si', 'ス' => 'su', 'セ' => 'se', 'ソ' => 'so',
@@ -114,11 +113,13 @@ class Kunrei implements RomanizationInterface
      */
     public function fromHiragana($str)
     {
+        $str = $this->escapeLatinCharacters($str);
         $output = strtr($str, $this->mapHiragana);
         $output = strtr($output, $this->mapPunctuationMarks);
         $output = $this->transliterateSokuon($output);
         $output = $this->convertLongVowels($output);
         $output = $this->convertParticles($output);
+        $output = $this->unescapeLatinCharacters($output);
 
         return $output;
     }
@@ -130,12 +131,12 @@ class Kunrei implements RomanizationInterface
      */
     public function fromKatakana($str)
     {
+        $str = $this->escapeLatinCharacters($str);
         $output = strtr($str, $this->mapKatakana);
         $output = strtr($output, $this->mapPunctuationMarks);
         $output = $this->transliterateSokuon($output, Transliterator::KATAKANA);
         $output = $this->transliterateChoonpu($output);
-        $output = $this->convertLongVowels($output);
-        $output = $this->convertParticles($output);
+        $output = $this->unescapeLatinCharacters($output);
 
         return $output;
     }
@@ -151,34 +152,9 @@ class Kunrei implements RomanizationInterface
     }
 
     /**
-     * Transliterate Sokuon (http://en.wikipedia.org/wiki/Sokuon) character into
-     * its equivalent in latin alphabet.
+     * Overrides transliterateChoonpu().
      *
-     * @param string $str String to be transliterated.
-     *
-     * @param string $syllabary Syllabary to use
-     *
-     * @return string Transliterated string.
-     */
-    protected function transliterateSokuon($str, $syllabary = Transliterator::HIRAGANA)
-    {
-        if ($syllabary === Transliterator::KATAKANA) {
-            $sokuon = Transliterator::SOKUON_KATAKANA;
-        } else {
-            $sokuon = Transliterator::SOKUON_HIRAGANA;
-        }
-        $output = preg_replace('/' . $sokuon . '(.)/u', '${1}${1}', $str);
-
-        return $output;
-    }
-
-    /**
-     * Transliterate Chōonpu (http://en.wikipedia.org/wiki/Chōonpu) character
-     * into its equivalent in latin alphabet.
-     *
-     * @param string $str String to be transliterated.
-     *
-     * @return string Transliterated string.
+     * @see Romanization
      */
     protected function transliterateChoonpu($str)
     {
@@ -194,14 +170,9 @@ class Kunrei implements RomanizationInterface
     }
 
     /**
-     * Post-processing transliteration to properly format long vowels.
-     * This is a minimalist implementation of Hepburn's rules. For a detailed
-     * explanation please refer to:
-     *  - http://en.wikipedia.org/wiki/Hepburn_romanization#Long_vowels
+     * Overrides convertLongVowels().
      *
-     * @param string $str String to be preprocessed.
-     *
-     * @return string Transliterated string.
+     * @see Romanization
      */
     protected function convertLongVowels($str)
     {
@@ -212,11 +183,9 @@ class Kunrei implements RomanizationInterface
     }
 
     /**
-     * Post-processing transliteration to properly format particles.
+     * Overrides convertParticles().
      *
-     * @param string $str String to be preprocessed.
-     *
-     * @return string Transliterated string.
+     * @see Romanization
      */
     protected function convertParticles($str)
     {
